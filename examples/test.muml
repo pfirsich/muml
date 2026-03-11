@@ -1,0 +1,36 @@
+# empty sections should be fine
+node_no_args
+node_no_children {}
+
+# quoted strings with spaces
+label "hello world"
+path "some/path with spaces/file.png"
+path name="some/path with spaces/file.png"
+
+# multiple positional args
+color 255 128 0
+rect 10 20 100 200
+
+# attrs only, no positional args
+camera fov=90.0 near=0.1 far=1000.0
+
+"foo bar" 1 2 3 {
+    x hey
+}
+
+'bar bar' 1 2 3 {
+    x ho
+}
+
+# deep nesting
+root {
+    child_a {
+        grandchild x=1 y=2
+    }
+    child_b {
+        grandchild x=3 y=4
+    }
+}
+
+# mixed args and attrs together
+sprite "hero.png" 32 32 layer=3 flip=false true

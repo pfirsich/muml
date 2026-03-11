@@ -1,0 +1,15 @@
+# level 1
+
+background "forest.png"
+music "forest_theme.ogg" volume=0.6
+
+tilemap "level1.tmx"
+
+object "spawn" 64.0 64.0
+object "exit"  512.0 300.0
+
+light 100.0 80.0  color=255 brightness=1.2 radius=64.0
+light 300.0 150.0 color=128 brightness=0.8 radius=32.0
+
+zone "water" 0.0 200.0 width=640.0 height=80.0
+zone "lava"  0.0 400.0 width=200.0 height=40.0 damage=5

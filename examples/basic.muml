@@ -1,0 +1,6 @@
+# basic config
+window_title "My Game"
+window_width 1280
+window_height 720
+fullscreen false
+volume 0.8
