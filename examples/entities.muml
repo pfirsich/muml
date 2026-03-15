@@ -1,22 +1,17 @@
 entity {
     name "player"
-    health 100
     transform 0.0 0.0
-    sprite "player.png" layer=2
+    health 100
     sound "footstep.wav" volume=0.5 loop=true
 }
 
 entity {
     name "enemy_grunt"
-    health 30
     transform 400.0 200.0
-    sprite "grunt.png" layer=2
-    collider 16 24
+    health 30
 }
 
 entity {
     name "chest"
     transform 128.0 64.0
-    sprite "chest_closed.png" layer=1
-    trigger radius=8.0
 }

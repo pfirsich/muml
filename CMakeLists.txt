@@ -28,6 +28,6 @@ if(MUML_BUILD_TESTS)
   add_executable(parse-entities examples/parse-entities.cpp examples/common.cpp)
   target_link_libraries(parse-entities PRIVATE muml)
 
-  add_executable(parse-entities-cpp examples/parse-entities-cpp.cpp examples/common.cpp)
+  add_executable(parse-entities-cpp examples/parse-entities-cpp.cpp examples/common.cpp examples/wrapper.cpp)
   target_link_libraries(parse-entities-cpp PRIVATE muml)
 endif()

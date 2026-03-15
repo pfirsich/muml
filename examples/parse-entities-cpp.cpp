@@ -10,39 +10,48 @@ using namespace muml;
 
 struct Sound {
     std::string_view path;
-    float volume;
-    bool loop;
+    float volume = 1.0f;
+    bool loop = false;
 };
 
 struct Entity {
     std::string_view name;
-    int64_t health = 0;
     std::array<float, 2> transform;
+    int64_t health = 0;
     Sound sound;
 };
 
 Entity parse_entity(Node node)
 {
-    const auto sprite = node.child("sprite");
-    const auto sound = node.child("sound");
-    return {
-        .name = node.child("name")[0],
-        .health = node.child("health")[0],
+    Entity result {
+        .name = node.child("name").arg(0).get_str(),
         .transform = node.child("transform").get_arrayf<2>(),
-        .sound = {
-            .path = sound[0],
-            .volume = sound["volume"].get(1.0f),
-            .loop = sound["loop"],
-        },
     };
+
+    if (const auto health = node.opt_child("health")) {
+        result.health = health.arg(0).opt_int(0);
+    }
+
+    if (const auto sound = node.opt_child("sound")) {
+        result.sound = {
+            .path = sound.arg(0).get_str(),
+            .volume = sound.attr("volume").opt_float(1.0f),
+            .loop = sound.attr("loop").opt_bool(false),
+        };
+    }
+    return result;
 }
 
-std::vector<Entity> parse_file(const muml_node* root)
+std::vector<Entity> parse_file(const muml_node* root, Context& ctx)
 {
     std::vector<Entity> entities;
     for (auto n = root->first_child; n; n = n->next_sibling) {
         if (sv(n->name) == "entity") {
-            entities.push_back(parse_entity({ n }));
+            const auto entity = parse_entity({ n, ctx });
+            if (!ctx.ok()) {
+                break;
+            }
+            entities.push_back(entity);
         }
     }
     return entities;
@@ -51,7 +60,7 @@ std::vector<Entity> parse_file(const muml_node* root)
 int main(int argc, char** argv)
 {
     if (argc < 2) {
-        fprintf(stderr, "Usage: dump FILE\n");
+        fprintf(stderr, "Usage: parse-entities-cpp FILE\n");
         return 1;
     }
 
@@ -68,7 +77,12 @@ int main(int argc, char** argv)
         return 1;
     }
 
-    const auto entities = parse_file(&nodes[0]);
+    Context ctx(data.data(), data.size());
+    const auto entities = parse_file(&nodes[0], ctx);
+    if (!ctx.ok()) {
+        fprintf(stderr, "%s\n", ctx.error.c_str());
+        return 1;
+    }
 
     for (const auto& e : entities) {
         printf("name: %.*s\n", (int)e.name.size(), e.name.data());
