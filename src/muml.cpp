@@ -270,6 +270,18 @@ EXPORT muml_parse_result muml_parse(const char* data, size_t size, muml_node* no
 
 // Helpers
 
+EXPORT uint32_t muml_get_line(const char* source, size_t size, const char* p)
+{
+    assert(source && p >= source && p <= source + size);
+    uint32_t line = 1;
+    for (const char* cur = source; cur < p; ++cur) {
+        if (*cur == '\n') {
+            line++;
+        }
+    }
+    return line;
+}
+
 EXPORT const muml_node* muml_child(const muml_node* node, const char* name)
 {
     if (!node) {

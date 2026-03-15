@@ -40,6 +40,9 @@ muml_parse_result muml_parse(const char* data, size_t size, muml_node* nodes, si
 
 // Helpers
 
+// p must point into source[0..size]
+uint32_t muml_get_line(const char* source, size_t size, const char* p);
+
 // returns NULL if node is NULL or no child with that name exists
 const muml_node* muml_child(const muml_node* node, const char* name);
 
