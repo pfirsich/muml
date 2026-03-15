@@ -39,7 +39,7 @@ The general structure of a muml document is a tree of nodes, each of which has a
 
 Every one of these (name, argument, attribute name and attribute value are all "strings"), which means they are either quoted (single or double quotes allowed) or unquoted and terminated by whitespace.
 
-This is heavily inspired by KDL and SDLang.
+This is heavily inspired by [KDL](https://kdl.dev/), [SDLang](https://sdlang.org/) and [Styx](https://styx.bearcove.eu/).
 
 You can represent a muml file like this:
 ```
@@ -52,5 +52,3 @@ struct Node {
 ```
 
 If you need your strings to mean something (like numbers or bools or whatever), you should parse them yourself, though this library includes some helper functions for this.
-
-## Parser
